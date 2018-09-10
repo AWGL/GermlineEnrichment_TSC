@@ -6,9 +6,9 @@ PBS_O_WORKDIR=(`echo $PBS_O_WORKDIR | sed "s/^\/state\/partition1//" `)
 cd $PBS_O_WORKDIR
 
 #Description: Germline Enrichment Pipeline (Illumina paired-end). Not for use with other library preps/ experimental conditions.
-#Author: Matt Lyon, All Wales Medical Genetics Lab
+#Author: Matt Lyon, edited by Sara Rey & Christopher Medway, All Wales Medical Genetics Lab
 #Mode: BY_COHORT
-version="2.5.1"
+version="2.5.3"
 
 # Script 2 runs in panel folder, requires final Bams, gVCFs and a PED file
 # Variant filtering assumes non-related samples. If familiy structures are known they MUST be provided in the PED file
@@ -255,8 +255,11 @@ annotateVCF "$seqId"_variants_filtered_genotypes_filtered_meta.vcf "$seqId"_vari
 --reference_window_stop 300 \
 -dt NONE
 
+#create vcf without mitochondrial variants for import to database
+awk '$1 !~ /^MT/ { print $0 }' "$seqId"_filtered_annotated_roi.vcf > "$seqId"_filtered_annotated_roi_noMT.vcf
+
 #report variants to text
-/share/apps/jre-distros/jre1.8.0_131/bin/java -Djava.io.tmpdir=/state/partition1/tmpdir -Xmx48g -jar /data/diagnostics/apps/VariantReporterSpark/VariantReporterSpark-1.3.2/VariantReporterSpark.jar \
+/share/apps/jre-distros/jre1.8.0_131/bin/java -Djava.io.tmpdir=/state/partition1/tmpdir -Xmx48g -jar /data/diagnostics/apps/VariantReporterSpark/VariantReporterSpark-1.3.3/VariantReporterSpark.jar \
 -V "$seqId"_filtered_annotated_roi.vcf \
 -P "$seqId"_pedigree.ped \
 -T 8 \
@@ -320,8 +323,18 @@ if [[ -e "HighCoverageBams.list" ]] && [[ $(wc -l "HighCoverageBams.list" | awk 
 
 fi
 
-### QC ###
+## panel specific analyses
+if [ $panel == "IlluminaTruSightCancer" ]
+do
+    # generate combined CNV report
+    /share/apps/anaconda2/bin/Rscript --vanilla /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/generateCnvReport.R $seqId $panel $version
 
+    # create a gaps & coverage files that are panel specific
+    bash /data/diagnostics/scripts/getCustomCoverage.sh
+done
+
+
+### QC ###
 #relatedness test
 /share/apps/vcftools-distros/vcftools-0.1.14/build/bin/vcftools \
 --relatedness2 \
