@@ -6,9 +6,9 @@ PBS_O_WORKDIR=(`echo $PBS_O_WORKDIR | sed "s/^\/state\/partition1//" `)
 cd $PBS_O_WORKDIR
 
 #Description: Germline Enrichment Pipeline (Illumina paired-end). Not for use with other library preps/ experimental conditions.
-#Author: Matt Lyon, All Wales Medical Genetics Lab
+#Author: Matt Lyon, edited by Sara Rey & Christopher Medway, All Wales Medical Genetics Lab
 #Mode: BY_SAMPLE
-version="2.5.1"
+version="2.5.3"
 
 # Script 1 runs in sample folder, requires fastq files split by lane
 
@@ -414,12 +414,12 @@ echo \#\#SAMPLE\=\<ID\="$sampleId",Tissue\=Germline,WorklistId\="$worklistId",Se
 
 #Create PED file
 #TSV Format: Family_ID, Individual_ID, Paternal_ID, Maternal_ID, Sex (1=male; 2=female; 0=unknown), Phenotype (Description or 1=unaffected, 2=affected, 0=missing). Missing data is 0
-if [ ! -z ${familyId-} ]; then echo -ne "$familyId\t" > "$sampleId"_pedigree.ped; else echo -ne "0\t" > "$seqId"_"$sampleId"_pedigree.ped; fi
+if [ ! -z ${familyId-} ]; then echo -ne "$familyId\t" > "$seqId"_"$sampleId"_pedigree.ped; else echo -ne "0\t" > "$seqId"_"$sampleId"_pedigree.ped; fi
 echo -ne "$sampleId\t" >> "$seqId"_"$sampleId"_pedigree.ped
-if [ ! -z ${paternalId-} ]; then echo -ne "$paternalId\t" >> "$sampleId"_pedigree.ped; else echo -ne "0\t" >> "$seqId"_"$sampleId"_pedigree.ped; fi
-if [ ! -z ${maternalId-} ]; then echo -ne "$maternalId\t" >> "$sampleId"_pedigree.ped; else echo -ne "0\t" >> "$seqId"_"$sampleId"_pedigree.ped; fi
-if [ ! -z ${gender-} ]; then echo -ne "$gender\t" >> "$sampleId"_pedigree.ped; else echo -ne "0\t" >> "$seqId"_"$sampleId"_pedigree.ped; fi
-if [ ! -z ${phenotype-} ]; then echo -e "$phenotype" >> "$sampleId"_pedigree.ped; else echo -e "2" >> "$seqId"_"$sampleId"_pedigree.ped; fi
+if [ ! -z ${paternalId-} ]; then echo -ne "$paternalId\t" >> "$seqId"_"$sampleId"_pedigree.ped; else echo -ne "0\t" >> "$seqId"_"$sampleId"_pedigree.ped; fi
+if [ ! -z ${maternalId-} ]; then echo -ne "$maternalId\t" >> "$seqId"_"$sampleId"_pedigree.ped; else echo -ne "0\t" >> "$seqId"_"$sampleId"_pedigree.ped; fi
+if [ ! -z ${sex-} ]; then echo -ne "$sex\t" >> "$seqId"_"$sampleId"_pedigree.ped; else echo -ne "0\t" >> "$seqId"_"$sampleId"_pedigree.ped; fi
+if [ ! -z ${phenotype-} ]; then echo -e "$phenotype" >> "$seqId"_"$sampleId"_pedigree.ped; else echo -e "2" >> "$seqId"_"$sampleId"_pedigree.ped; fi
 
 cat "$seqId"_"$sampleId"_pedigree.ped >> ../"$seqId"_pedigree.ped
 
