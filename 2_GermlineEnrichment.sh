@@ -325,13 +325,19 @@ fi
 
 ## panel specific analyses
 if [ $panel == "IlluminaTruSightCancer" ]
-do
+then
+    # generate hotspots bedfile
+    echo "making hotspots bedfile"
+    cat /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/IlluminaTruSightCancer/hotspot_coverage/*.bed | sort -k1,1 -k2,2n > /data/results/$seqId/$panel/IlluminaTruSightCancer_CustomROI_b37.bed
+
     # generate combined CNV report
+    echo "making CNV Report"
     /share/apps/anaconda2/bin/Rscript --vanilla /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/generateCnvReport.R $seqId $panel $version
 
     # create a gaps & coverage files that are panel specific
-    bash /data/diagnostics/scripts/getCustomCoverage.sh
-done
+    echo "calculating custom coverage"
+    /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/getCustomCoverage.sh
+fi
 
 
 ### QC ###

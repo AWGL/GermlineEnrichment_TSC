@@ -11,8 +11,7 @@ seqId   <- commandArgs(trailingOnly = T)[1]
 panel   <- commandArgs(trailingOnly = T)[2]
 version <- commandArgs(trailingOnly = T)[3]
  
-roi   <- "/data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/IlluminaTruSightCancer_CustomROI_b37.bed"
-
+roi <- paste0("/data/results/",seqId,"/",panel,"/IlluminaTruSightCancer_CustomROI_b37.bed")
 dir <- paste0("/data/results/", seqId, "/", panel, "/")
 
 # load exome depth QC (r2 values)
@@ -20,7 +19,7 @@ exomeDepthMatrics <- paste0(dir,"/",seqId,"_ExomeDepth_Metrics.txt")
 exomeDepthMatricsDf <- read.table(exomeDepthMatrics, stringsAsFactors = F, header = T)
 
 # get list of samples that have CNV data
-sampleId <- gsub(x = exomeDepthMatricsDf$BamPath, pattern = "(.+_)(\\d+M\\d+)(.bam)", replacement = "\\2", perl = T)
+sampleId <- unlist(lapply(stringr::str_split(read.table("HighCoverageBams.list", stringsAsFactors=F)[,1], pattern="/"), function(x) x[7]))
 
 # generate initial QC flags where all samples = PASS
 passQC <- data.frame(sampleId, "QC" = "PASS", stringsAsFactors = F)
@@ -33,6 +32,8 @@ if (sum(exomeDepthMatricsDf$Correlation < 0.98) > 0) {
 
 # add average depth for each sample
 for (s in sampleId) {
+
+    message(s)
     exomeDepthCoverage <- paste0(dir,"/",s,"/",seqId,"_",s,"_DepthOfCoverage.sample_summary")
     exomeDepthCoverageDf <- read.table(exomeDepthCoverage, stringsAsFactors = F, header = T, fill = T)
     passQC[passQC$sampleId %in% s, "Depth"] <- exomeDepthCoverageDf$mean[1]
@@ -56,12 +57,12 @@ mergedDf <- lapply(sampleId, function(sample) {
         chr     <- as.vector(vcf@rowRanges@seqnames)
         start   <- as.numeric(vcf@rowRanges@ranges@start)
         end     <- as.numeric(vcf@info$END)
-        ref     <- vcf@fixed$REF
-        alt     <- vcf@fixed$ALT@unlistData
+        ref     <- as.character(vcf@fixed$REF)
+        alt     <- as.character(vcf@fixed$ALT@unlistData)
         type    <- vcf@fixed$ALT@unlistData
         regions <- vcf@info$Regions
         
-        if (is.na(end)) {end <- (start+1)}
+        if (any(is.na(end))) {end[is.na(end)] <- (start[is.na(end)] + 1)}
         
     } else {
         
@@ -99,11 +100,11 @@ mergedDf <- lapply(sampleId, function(sample) {
         chr     <- as.vector(vcf@rowRanges@seqnames)
         start   <- as.numeric(vcf@rowRanges@ranges@start)
         end     <- as.numeric(vcf@info$END)
-        ref     <- vcf@fixed$REF
-        alt     <- vcf@fixed$ALT@unlistData
+        ref     <- as.character(vcf@fixed$REF)
+        alt     <- as.character(vcf@fixed$ALT@unlistData)
         type    <- vcf@info$SVTYPE
         
-        if (any(is.na(end))) {end[is.na(end)] <- start[is.na(end)]}
+        if (any(is.na(end))) {end[is.na(end)] <- start[is.na(end)] + 1}
         
     } else {
         
@@ -138,11 +139,14 @@ mergedDf <- lapply(sampleId, function(sample) {
     
     ## annotate with gene names
     roiDf <- read.table(roi, stringsAsFactors = F)
-    roiGR <- GenomicRanges::GRanges(seqnames = roiDf$V1, ranges = IRanges(start = roiDf$V2, end = roiDf$V3))
+    roiDf$gene <- stringr::str_extract(string = roiDf$V4, pattern="(\\w+)")
+    roiUnified <- do.call(rbind, lapply(split(roiDf, roiDf$gene), function(x) {data.frame("chr" = x$V1[1], "start" = min(x$V2), "end" = max(x$V3), "gene" = x$gene[1])}))
+
+    roiGR <- GenomicRanges::GRanges(seqnames = roiUnified$chr, ranges = IRanges(start = roiUnified$start, end = roiUnified$end))
     
     gr <- GenomicRanges::GRanges(seqnames = dfNonNull$chr, ranges = IRanges(start = as.numeric(dfNonNull$start), end = as.numeric(dfNonNull$end)))
     ol <- findOverlaps(gr, roiGR)
-    dfNonNull[queryHits(ol),"gene"] <- gsub(roiDf[subjectHits(ol),4], pattern = ".chr.+", perl = T, replacement = "")
+    dfNonNull[queryHits(ol),"gene"] <- roiUnified[subjectHits(ol),"gene"]
     dfNonNull <- dfNonNull[order(as.numeric(dfNonNull$chr), as.numeric(dfNonNull$start)),]
     
     if (dim(dfNull)[1] == 0) {
@@ -160,3 +164,4 @@ mergedDf[mergedDf$depth < 160 & mergedDf$qc == "PASS","qc"]    <- "Depth<160"
 
 # write to current directory (run folder)
 write.table(mergedDf, file = paste0(dir,"/",seqId,"_cnvReport.csv"), row.names = F, sep = ",", quote = F)
+
