@@ -7,10 +7,12 @@ library(stringr, quietly=T)
 # Description: compiles a single run-wide report of CNVs, merging CNV calls
 # from MANTA and ExomeDepth
 
+# input arguments
 seqId   <- commandArgs(trailingOnly = T)[1]
 panel   <- commandArgs(trailingOnly = T)[2]
 version <- commandArgs(trailingOnly = T)[3]
  
+# custom ROI files generated from bed files on the fly
 roi <- paste0("/data/results/",seqId,"/",panel,"/IlluminaTruSightCancer_CustomROI_b37.bed")
 dir <- paste0("/data/results/", seqId, "/", panel, "/")
 
