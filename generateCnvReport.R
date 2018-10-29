@@ -166,4 +166,3 @@ mergedDf[mergedDf$depth < 160 & mergedDf$qc == "PASS","qc"]    <- "Depth<160"
 
 # write to current directory (run folder)
 write.table(mergedDf, file = paste0(dir,"/",seqId,"_cnvReport.csv"), row.names = F, sep = ",", quote = F)
-

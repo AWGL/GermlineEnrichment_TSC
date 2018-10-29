@@ -12,6 +12,7 @@ version="2.5.3"
 
 RUN_DIR=$PWD
 
+# loop over samples
 for i in */;
 do
 
@@ -20,7 +21,6 @@ do
 
     #load sample & pipeline variables
     . ./*.variables
-
     . /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel".variables
 
     echo "making PASS file"
