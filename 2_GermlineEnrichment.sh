@@ -326,7 +326,7 @@ fi
 ## panel specific analyses
 if [ $panel == "IlluminaTruSightCancer" ]
 then
-    # generate hotspots bedfile
+    # generate single bedfile from gene beds in order to enable custom reporting of gaps and coverage for TSC panel
     echo "making hotspots bedfile"
     cat /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/IlluminaTruSightCancer/hotspot_coverage/*.bed | sort -k1,1 -k2,2n > /data/results/$seqId/$panel/IlluminaTruSightCancer_CustomROI_b37.bed
 
