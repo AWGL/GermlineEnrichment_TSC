@@ -354,6 +354,10 @@ OUTPUT="$seqId"_CollectVariantCallingMetrics.txt \
 DBSNP=/state/partition1/db/human/gatk/2.8/b37/dbsnp_138.b37.excluding_sites_after_129.vcf \
 THREAD_COUNT=8
 
+
+### Generate Combined QC File ###
+python /data/diagnostics/scripts/merge_qc_files.py /data/results/$seqId/$panel/
+
 ### Clean up ###
 
 #delete unused files
