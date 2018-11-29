@@ -4,8 +4,6 @@
 seqid    <- commandArgs(trailingOnly = T)[1]
 sampleid <- commandArgs(trailingOnly = T)[2]
 
-message(sampleid)
-
 # generated using TSO ROI bed files
 coverageIn <- read.table(paste0(seqid,"_",sampleid,"_customClinicalCoverageTargetMetrics.txt"), stringsAsFactors = F)
 
@@ -15,8 +13,6 @@ gene <- stringr::str_extract(string = coverageIn$V4, pattern = "^\\w+")
 # loop over list of genes and reformat coverage data
 coverageInList <- split(coverageIn, gene)
 out <- lapply(names(coverageInList), function(g) {
-  
-  message(g)
   
   df <- coverageInList[[g]]
 
