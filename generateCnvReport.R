@@ -35,7 +35,6 @@ if (sum(exomeDepthMatricsDf$Correlation < 0.98) > 0) {
 # add average depth for each sample
 for (s in sampleId) {
 
-    message(s)
     exomeDepthCoverage <- paste0(dir,"/",s,"/",seqId,"_",s,"_DepthOfCoverage.sample_summary")
     exomeDepthCoverageDf <- read.table(exomeDepthCoverage, stringsAsFactors = F, header = T, fill = T)
     passQC[passQC$sampleId %in% s, "Depth"] <- exomeDepthCoverageDf$mean[1]
@@ -43,8 +42,6 @@ for (s in sampleId) {
 
 # main function - loop over sample and compile MANTA / ExoneDepth data
 mergedDf <- lapply(sampleId, function(sample) {
-    
-    message(sample)
     
     qc    <- passQC[passQC$sampleId %in% sample,"QC"]
     depth <- passQC[passQC$sampleId %in% sample, "Depth"] 
