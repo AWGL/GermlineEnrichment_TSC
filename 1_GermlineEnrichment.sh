@@ -15,7 +15,7 @@ version="2.5.3"
 
 #load sample & pipeline variables
 . *.variables
-. /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel".variables
+. /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel".variables
 
 #count how many core FASTQC tests failed
 countQCFlagFails() {
@@ -146,7 +146,7 @@ TMP_DIR=/state/partition1/tmpdir
 -known /state/partition1/db/human/gatk/2.8/b37/Mills_and_1000G_gold_standard.indels.b37.vcf \
 -I "$seqId"_"$sampleId"_rmdup.bam \
 -o "$seqId"_"$sampleId"_realign.intervals \
--L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+-L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
 -ip 100 \
 -dt NONE
 
@@ -173,7 +173,7 @@ if [ "$includeBQSR" = true ] ; then
     -knownSites /state/partition1/db/human/gatk/2.8/b37/1000G_phase1.indels.b37.vcf \
     -knownSites /state/partition1/db/human/gatk/2.8/b37/Mills_and_1000G_gold_standard.indels.b37.vcf \
     -I "$seqId"_"$sampleId"_realigned.bam \
-    -L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+    -L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
     -o "$seqId"_"$sampleId"_recal_data.table \
     -ip 100 \
     -dt NONE
@@ -187,7 +187,7 @@ if [ "$includeBQSR" = true ] ; then
     -knownSites /state/partition1/db/human/gatk/2.8/b37/Mills_and_1000G_gold_standard.indels.b37.vcf \
     -BQSR "$seqId"_"$sampleId"_recal_data.table \
     -I "$seqId"_"$sampleId"_realigned.bam \
-    -L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+    -L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
     -o "$seqId"_"$sampleId"_post_recal_data.table \
     -ip 100 \
     -dt NONE
@@ -224,7 +224,7 @@ fi
 
 #Convert BED to interval_list for later
 /share/apps/jre-distros/jre1.8.0_131/bin/java -XX:GCTimeLimit=50 -XX:GCHeapFreeLimit=10 -Djava.io.tmpdir=/state/partition1/tmpdir -Xmx2g -jar /share/apps/picard-tools-distros/picard-tools-2.12.2/picard.jar BedToIntervalList \
-I=/data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+I=/data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
 O="$panel"_ROI.interval_list \
 SD=/state/partition1/db/human/gatk/2.8/b37/human_g1k_v37.dict 
 
@@ -260,7 +260,7 @@ TMP_DIR=/state/partition1/tmpdir
 -R /state/partition1/db/human/gatk/2.8/b37/human_g1k_v37.fasta \
 -o "$seqId"_"$sampleId"_DepthOfCoverage \
 -I "$seqId"_"$sampleId".bam \
--L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+-L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
 --countType COUNT_FRAGMENTS \
 --minMappingQuality 20 \
 --minBaseQuality 10 \
@@ -277,7 +277,7 @@ awk -F'[\t|:]' '{if(NR>1) print $1"\t"$2"\t"$3}' "$seqId"_"$sampleId"_DepthOfCov
 #Make BED file of all genes overlapping ROI
 /share/apps/bedtools-distros/bedtools-2.26.0/bin/bedtools intersect -wa \
 -a /state/partition1/db/human/refseq/ref_GRCh37.p13_top_level_canonical_b37_sorted.gff3.gz \
--b /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed | \
+-b /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed | \
 awk -F "\t" '$3 == "gene" { print $1"\t"$4-1"\t"$5 }' | \
 sort -k1,1V -k2,2n -k3,3n | \
 /share/apps/bedtools-distros/bedtools-2.26.0/bin/bedtools merge > "$panel"_TargetGenes.bed
@@ -292,7 +292,7 @@ sort -k1,1V -k2,2n -k3,3n | \
 /share/apps/bedtools-distros/bedtools-2.26.0/bin/bedtools merge > "$panel"_Targets.bed
 
 #add MT regions to targets
-awk '$1 ~ /^MT/' /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed >> "$panel"_Targets.bed
+awk '$1 ~ /^MT/' /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed >> "$panel"_Targets.bed
 
 #Intersect CDS for all genes, pad by p=n and merge coordinates by gene
 /share/apps/bedtools-distros/bedtools-2.26.0/bin/bedtools intersect \
@@ -308,7 +308,7 @@ done | \
 sort -k1,1V -k2,2n -k3,3n > "$panel"_ClinicalCoverageTargets.bed
 
 #add hotspot regions
-cat /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/GermlineEnrichment_Hotspots.bed "$panel"_ClinicalCoverageTargets.bed | \
+cat /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/GermlineEnrichment_TSC_Hotspots.bed "$panel"_ClinicalCoverageTargets.bed | \
 sort -k1,1V -k2,2n -k3,3n > "$panel"_ClinicalCoverageTargetsHotspots.bed
 
 #Make PASS BED
@@ -343,7 +343,7 @@ sort -k1,1V -k2,2n -k3,3n \
 -restrictAllelesTo BIALLELIC \
 -env \
 -ef \
--L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+-L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
 -XL X -XL Y -XL MT \
 -dt NONE
 
@@ -374,7 +374,7 @@ atDropout=$(head -n8 "$seqId"_"$sampleId"_HsMetrics.txt | tail -n1 | cut -s -f51
 gcDropout=$(head -n8 "$seqId"_"$sampleId"_HsMetrics.txt | tail -n1 | cut -s -f52) #A measure of how undercovered >= 50% GC regions are relative to the mean
 
 #gender analysis using Y chrom coverage
-awk '{if ($1 == "Y") print $0}' /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed > Y.bed
+awk '{if ($1 == "Y") print $0}' /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed > Y.bed
 
 if [ $(wc -l Y.bed |cut -d' ' -f1) -gt 0 ] && [ $(awk -v meanOnTargetCoverage="$meanOnTargetCoverage" 'BEGIN{printf "%3.0f", meanOnTargetCoverage}') -gt 10 ]; then
 
@@ -411,7 +411,7 @@ echo -e "TotalReads\tRawSequenceQuality\tTotalTargetUsableBases\tDuplicationRate
 echo -e "$totalReads\t$rawSequenceQuality\t$totalTargetedUsableBases\t$duplicationRate\t$pctSelectedBases\t$pctTargetBasesCt\t$meanOnTargetCoverage\t$calcGender\t$freemix\t$meanInsertSize\t$sdInsertSize\t$pctPfReadsAligned\t$atDropout\t$gcDropout" >> "$seqId"_"$sampleId"_QC.txt
 
 #print metaline for final VCF
-echo \#\#SAMPLE\=\<ID\="$sampleId",Tissue\=Germline,WorklistId\="$worklistId",SeqId\="$seqId",Assay\="$panel",PipelineName\=GermlineEnrichment,PipelineVersion\="$version",RawSequenceQuality\="$rawSequenceQuality",PercentMapped\="$pctPfReadsAligned",ATDropout\="$atDropout",GCDropout\="$gcDropout",MeanInsertSize\="$meanInsertSize",SDInsertSize\="$sdInsertSize",DuplicationRate\="$duplicationRate",TotalReads\="$totalReads",PctSelectedBases\="$pctSelectedBases",MeanOnTargetCoverage\="$meanOnTargetCoverage",PctTargetBasesCt\="$pctTargetBasesCt",EstimatedContamination\="$freemix",GenotypicGender\="$calcGender",TotalTargetedUsableBases\="$totalTargetedUsableBases",RemoteVcfFilePath\=$(dirname $PWD)/"$seqId"_filtered_meta_annotated.vcf,RemoteBamFilePath\=$(find $PWD -type f -name "$seqId"_"$sampleId".bam)\> > "$seqId"_"$sampleId"_meta.txt
+echo \#\#SAMPLE\=\<ID\="$sampleId",Tissue\=Germline,WorklistId\="$worklistId",SeqId\="$seqId",Assay\="$panel",PipelineName\=GermlineEnrichment_TSC,PipelineVersion\="$version",RawSequenceQuality\="$rawSequenceQuality",PercentMapped\="$pctPfReadsAligned",ATDropout\="$atDropout",GCDropout\="$gcDropout",MeanInsertSize\="$meanInsertSize",SDInsertSize\="$sdInsertSize",DuplicationRate\="$duplicationRate",TotalReads\="$totalReads",PctSelectedBases\="$pctSelectedBases",MeanOnTargetCoverage\="$meanOnTargetCoverage",PctTargetBasesCt\="$pctTargetBasesCt",EstimatedContamination\="$freemix",GenotypicGender\="$calcGender",TotalTargetedUsableBases\="$totalTargetedUsableBases",RemoteVcfFilePath\=$(dirname $PWD)/"$seqId"_filtered_meta_annotated.vcf,RemoteBamFilePath\=$(find $PWD -type f -name "$seqId"_"$sampleId".bam)\> > "$seqId"_"$sampleId"_meta.txt
 
 #Create PED file
 #TSV Format: Family_ID, Individual_ID, Paternal_ID, Maternal_ID, Sex (1=male; 2=female; 0=unknown), Phenotype (Description or 1=unaffected, 2=affected, 0=missing). Missing data is 0
@@ -431,7 +431,7 @@ cat "$seqId"_"$sampleId"_pedigree.ped >> ../"$seqId"_pedigree.ped
 -T HaplotypeCaller \
 -R /state/partition1/db/human/gatk/2.8/b37/human_g1k_v37.fasta \
 -I "$seqId"_"$sampleId".bam \
--L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+-L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
 -ip 100 \
 -o "$seqId"_"$sampleId".g.vcf \
 -ped "$seqId"_"$sampleId"_pedigree.ped \
@@ -478,5 +478,5 @@ fi
 #check if all VCFs are written
 if [ $(find .. -maxdepth 1 -mindepth 1 -type d | wc -l | sed 's/^[[:space:]]*//g') -eq $(sort ../GVCFs.list | uniq | wc -l | sed 's/^[[:space:]]*//g') ]; then
     echo -e "seqId=$seqId\npanel=$panel" > ../variables
-    cp 2_GermlineEnrichment.sh .. && cd .. && qsub 2_GermlineEnrichment.sh
+    cp 2_GermlineEnrichment_TSC.sh .. && cd .. && qsub 2_GermlineEnrichment_TSC.sh
 fi

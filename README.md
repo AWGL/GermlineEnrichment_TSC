@@ -1,8 +1,8 @@
-<h2>GermlineEnrichment</h2>
+<h2>GermlineEnrichment_TSC</h2>
 <h3>Description</h3>
 <p>Diagnostic NGS pipeline for SNPs/Indels/CNVs/SVs/LOH from germline panel/exome data (Illumina paired-end)</p>
 <p>Requires variables files. See https://github.com/mcgml/MakeVariableFiles</p>
-<p>Launch with qsub 1_GermlineEnrichment.sh in the sample directory. Assumes Torque/PBS is installed</p>
+<p>Launch with qsub 1_GermlineEnrichment_TSC.sh in the sample directory. Assumes Torque/PBS is installed</p>
 <h3>Caveats</h3>
 <ul>
   <li>BQSR requires at least 100M bases post filtering to create an accurate model. Roughly, it shouldn't be used for designs less than 0.5Mb.</li>

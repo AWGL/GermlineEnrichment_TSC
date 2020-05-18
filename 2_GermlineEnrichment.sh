@@ -15,7 +15,7 @@ version="2.5.3"
 
 #load run & pipeline variables
 . variables
-. /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel".variables
+. /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel".variables
 
 addMetaDataToVCF(){
     output=$(echo "$1" | sed 's/\.vcf/_meta\.vcf/g')
@@ -69,7 +69,7 @@ annotateVCF(){
 -T GenotypeGVCFs \
 -R /state/partition1/db/human/gatk/2.8/b37/human_g1k_v37.fasta \
 -V GVCFs.list \
--L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+-L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
 -ip 100 \
 -o "$seqId"_variants.vcf \
 -ped "$seqId"_pedigree.ped \
@@ -81,7 +81,7 @@ annotateVCF(){
 -R /state/partition1/db/human/gatk/2.8/b37/human_g1k_v37.fasta \
 -V "$seqId"_variants.vcf \
 -selectType SNP \
--L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+-L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
 -ip 100 \
 -o "$seqId"_snps.vcf \
 -ped "$seqId"_pedigree.ped \
@@ -104,7 +104,7 @@ annotateVCF(){
 --filterName "MQRankSum" \
 --filterExpression "ReadPosRankSum < -8.0" \
 --filterName "ReadPosRankSum" \
--L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+-L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
 -ip 100 \
 -o "$seqId"_snps_filtered.vcf \
 -ped "$seqId"_pedigree.ped \
@@ -116,7 +116,7 @@ annotateVCF(){
 -R /state/partition1/db/human/gatk/2.8/b37/human_g1k_v37.fasta \
 -V "$seqId"_variants.vcf \
 --selectTypeToExclude SNP \
--L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+-L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
 -ip 100 \
 -o "$seqId"_non_snps.vcf \
 -ped "$seqId"_pedigree.ped \
@@ -139,7 +139,7 @@ annotateVCF(){
 --filterName "ReadPosRankSum" \
 --filterExpression "InbreedingCoeff != 'NaN' && InbreedingCoeff < -0.8" \
 --filterName "InbreedingCoeff" \
--L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+-L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
 -ip 100 \
 -o "$seqId"_non_snps_filtered.vcf \
 -ped "$seqId"_pedigree.ped \
@@ -153,7 +153,7 @@ annotateVCF(){
 --variant "$seqId"_non_snps_filtered.vcf \
 -o "$seqId"_variants_filtered.vcf \
 -genotypeMergeOptions UNSORTED \
--L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+-L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
 -ip 100 \
 -ped "$seqId"_pedigree.ped \
 -dt NONE
@@ -166,7 +166,7 @@ annotateVCF(){
 -ped "$seqId"_pedigree.ped \
 --genotypeFilterExpression "DP < 10" \
 --genotypeFilterName "LowDP" \
--L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+-L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
 -ip 100 \
 -o "$seqId"_variants_filtered_genotypes_filtered.vcf \
 -dt NONE
@@ -237,14 +237,14 @@ annotateVCF "$seqId"_variants_filtered_genotypes_filtered_meta.vcf "$seqId"_vari
 -E mcap.mcap \
 -ped "$seqId"_pedigree.ped \
 --resourceAlleleConcordance \
--L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+-L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
 -ip 100 \
 -o "$seqId"_filtered_annotated_padded.vcf.gz \
 -dt NONE
 
 #restrict variants to ROI but retain overlapping indels
 /share/apps/bcftools-distros/bcftools-1.4.1/bcftools view \
--R /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+-R /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
 "$seqId"_filtered_annotated_padded.vcf.gz > "$seqId"_filtered_annotated_roi.vcf
 
 #validate final VCF
@@ -272,7 +272,7 @@ if [[ -e "HighCoverageBams.list" ]] && [[ $(wc -l "HighCoverageBams.list" | awk 
 
     #make CNV bed
     /share/apps/bedtools-distros/bedtools-2.26.0/bin/bedtools slop \
-    -i /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+    -i /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
     -g /data/db/human/gatk/2.8/b37/human_g1k_v37.fasta.fai \
     -b 250 | \
     grep -v ^X| \
@@ -286,7 +286,7 @@ if [[ -e "HighCoverageBams.list" ]] && [[ $(wc -l "HighCoverageBams.list" | awk 
     awk -F"\t" '{print $1"\t"$2"\t"$3"\tr"NR}' > "$panel"_ROI_b37_CNV.bed
 
     #call CNVs using read depth
-    /share/apps/R-distros/R-3.3.1/bin/Rscript /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/ExomeDepth.R \
+    /share/apps/R-distros/R-3.3.1/bin/Rscript /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/ExomeDepth.R \
     -b HighCoverageBams.list \
     -f /state/partition1/db/human/gatk/2.8/b37/human_g1k_v37.fasta \
     -r "$panel"_ROI_b37_CNV.bed \
@@ -328,15 +328,15 @@ if [ $panel == "IlluminaTruSightCancer" ]
 then
     # generate single bedfile from gene beds in order to enable custom reporting of gaps and coverage for TSC panel
     echo "making hotspots bedfile"
-    cat /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/IlluminaTruSightCancer/hotspot_coverage/*.bed | sort -k1,1 -k2,2n > /data/results/$seqId/$panel/IlluminaTruSightCancer_CustomROI_b37.bed
+    cat /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/IlluminaTruSightCancer/hotspot_coverage/*.bed | sort -k1,1 -k2,2n > /data/results/$seqId/$panel/IlluminaTruSightCancer_CustomROI_b37.bed
 
     # generate combined CNV report
     echo "making CNV Report"
-    /share/apps/anaconda2/bin/Rscript --vanilla /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/generateCnvReport.R $seqId $panel $version
+    /share/apps/anaconda2/bin/Rscript --vanilla /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/generateCnvReport.R $seqId $panel $version
 
     # create a gaps & coverage files that are panel specific
     echo "calculating custom coverage"
-    /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/getCustomCoverage.sh
+    /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/getCustomCoverage.sh
 fi
 
 

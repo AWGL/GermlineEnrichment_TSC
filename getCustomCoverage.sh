@@ -21,7 +21,7 @@ do
 
     #load sample & pipeline variables
     . ./*.variables
-    . /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel".variables
+    . /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel".variables
 
     echo "making PASS file"
 
