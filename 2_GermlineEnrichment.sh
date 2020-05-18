@@ -100,7 +100,7 @@ annotateVCF(){
 --filterName "FS" \
 --filterExpression "MQ < 40.0" \
 --filterName "MQ" \
---filterExpression "MQRankSum < -12.5" \
+--filterExpression "MQRankSum < "$mqRankSum" " \
 --filterName "MQRankSum" \
 --filterExpression "ReadPosRankSum < -8.0" \
 --filterName "ReadPosRankSum" \
