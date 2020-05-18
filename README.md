@@ -1,4 +1,8 @@
 <h2>GermlineEnrichment_TSC</h2>
+
+> **NOTE**  
+> This pipeline is for **IlluminaTruSightCancer only**. It is taken from the original GermlineEnrichment pipeline but split because it has diverged significantly from the FH panel. See the Issue on the original GermlineEnrichment repo for details - https://github.com/AWGL/GermlineEnrichment/issues/16
+
 <h3>Description</h3>
 <p>Diagnostic NGS pipeline for SNPs/Indels/CNVs/SVs/LOH from germline panel/exome data (Illumina paired-end)</p>
 <p>Requires variables files. See https://github.com/mcgml/MakeVariableFiles</p>
