@@ -1,8 +1,12 @@
-<h2>GermlineEnrichment</h2>
+<h2>GermlineEnrichment_TSC</h2>
+
+> **NOTE**  
+> This pipeline is for **IlluminaTruSightCancer only**. It is taken from the original GermlineEnrichment pipeline but split because it has diverged significantly from the FH panel. See the Issue on the original GermlineEnrichment repo for details - https://github.com/AWGL/GermlineEnrichment/issues/16
+
 <h3>Description</h3>
 <p>Diagnostic NGS pipeline for SNPs/Indels/CNVs/SVs/LOH from germline panel/exome data (Illumina paired-end)</p>
 <p>Requires variables files. See https://github.com/mcgml/MakeVariableFiles</p>
-<p>Launch with qsub 1_GermlineEnrichment.sh in the sample directory. Assumes Torque/PBS is installed</p>
+<p>Launch with qsub 1_GermlineEnrichment_TSC.sh in the sample directory. Assumes Torque/PBS is installed</p>
 <h3>Caveats</h3>
 <ul>
   <li>BQSR requires at least 100M bases post filtering to create an accurate model. Roughly, it shouldn't be used for designs less than 0.5Mb.</li>

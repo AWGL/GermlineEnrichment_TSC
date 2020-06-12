@@ -8,7 +8,7 @@ set -euo pipefail
 # USE: bash inside run folder - will iterate over all samples. Depends on R script
 # calculateTargetCoverage.R (located in same folder).
 
-version="2.5.3"
+version="1.0.0"
 
 RUN_DIR=$PWD
 
@@ -21,7 +21,7 @@ do
 
     #load sample & pipeline variables
     . ./*.variables
-    . /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel".variables
+    . /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel".variables
 
     echo "making PASS file"
 

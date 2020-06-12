@@ -35,9 +35,13 @@ out <- do.call(rbind,out)
 out$V8 <- round(as.numeric(out$V8) * 100, digits = 2)
 write.table(out, paste0("./",seqid,"_",sampleid,"_customClinicalCoverageTargetCoverage.txt"), row.names = F, sep = "\t", quote = F, col.names=F)
 
-# reformat gaps file
-gaps <- read.table(paste0("./",seqid,"_",sampleid,"_customGaps.bed"), stringsAsFactors=F)
-gaps[,5:8] <- ""
-gaps$V9 <- unlist(lapply(stringr::str_split(gaps$V4, "\\."), function(x) x[1]))
-names(gaps) <- c("CHR","START","STOP","TARGET","","","","","GENE")
-write.table(gaps, paste0("./",seqid,"_",sampleid,"_customGaps.bed"), row.names = F, sep = "\t", quote = F)
+# reformat gaps file - skip if file is empty
+file_info <- file.info(paste0("./",seqid,"_",sampleid,"_customGaps.bed"))
+
+if (file_info$size != 0 ) {
+    gaps <- read.table(paste0("./",seqid,"_",sampleid,"_customGaps.bed"), stringsAsFactors=F)
+    gaps[,5:8] <- ""
+    gaps$V9 <- unlist(lapply(stringr::str_split(gaps$V4, "\\."), function(x) x[1]))
+    names(gaps) <- c("CHR","START","STOP","TARGET","","","","","GENE")
+    write.table(gaps, paste0("./",seqid,"_",sampleid,"_customGaps.bed"), row.names = F, sep = "\t", quote = F)
+}
