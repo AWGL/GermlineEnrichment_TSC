@@ -1,0 +1,12 @@
+Common subdirectories: /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-2.5.3/IlluminaTruSightCancer/hotspot_coverage and /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-dev/IlluminaTruSightCancer/hotspot_coverage
+diff /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-2.5.3/IlluminaTruSightCancer/IlluminaTruSightCancer.variables /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-dev/IlluminaTruSightCancer/IlluminaTruSightCancer.variables
+3,6c3,6
+< minimumCoverage=20 # for passing regions. Need to determine during clinical validation
+< includeBQSR=false #recalibrate base quality scores. Requires >100M bases ontarget
+< expectedInsertSize=300 #insert size
+< mqRankSum=-22.0 #The MQRankSum value to filter SNPs on
+---
+> minimumCoverage=20               # for passing regions. Need to determine during clinical validation
+> includeBQSR=false                #recalibrate base quality scores. Requires >100M bases ontarget
+> expectedInsertSize=300           #insert size
+> mqRankSum=-22.0                  #The MQRankSum value to filter SNPs on

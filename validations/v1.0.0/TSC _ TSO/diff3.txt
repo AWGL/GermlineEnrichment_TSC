@@ -1,0 +1,4 @@
+Only in /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-dev/IlluminaTruSightCancer/hotspot_coverage/: BRIP1.bed
+Only in /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-dev/IlluminaTruSightCancer/hotspot_coverage/: CHEK2.bed
+Only in /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-dev/IlluminaTruSightCancer/hotspot_coverage/: RAD51C.bed
+Only in /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-dev/IlluminaTruSightCancer/hotspot_coverage/: RAD51D.bed

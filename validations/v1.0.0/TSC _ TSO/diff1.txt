@@ -1,0 +1,60 @@
+Only in /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-2.5.3/: 1_GermlineEnrichment.sh
+Only in /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-dev/: 1_GermlineEnrichment_TSC.sh
+Only in /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-2.5.3/: 2_GermlineEnrichment.sh
+Only in /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-dev/: 2_GermlineEnrichment_TSC.sh
+Common subdirectories: /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-2.5.3/AgilentFocussedExomeQXT and /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-dev/AgilentFocussedExomeQXT
+Common subdirectories: /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-2.5.3/AgilentOGTFH and /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-dev/AgilentOGTFH
+Common subdirectories: /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-2.5.3/AgilentV6ExomeQXT and /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-dev/AgilentV6ExomeQXT
+Only in /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-2.5.3/: calculateTargetCoverage-OLD.R
+diff /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-2.5.3/calculateTargetCoverage.R /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-dev/calculateTargetCoverage.R
+38,39c38
+< # reformat gaps file
+< 
+---
+> # reformat gaps file - skip if file is empty
+43,49c42,46
+< 
+<   gaps <- read.table(paste0("./",seqid,"_",sampleid,"_customGaps.bed"), stringsAsFactors=F)
+<   gaps[,5:8] <- ""
+<   gaps$V9 <- unlist(lapply(stringr::str_split(gaps$V4, "\\."), function(x) x[1]))
+<   names(gaps) <- c("CHR","START","STOP","TARGET","","","","","GENE")
+<   write.table(gaps, paste0("./",seqid,"_",sampleid,"_customGaps.bed"), row.names = F, sep = "\t", quote = F)
+< 
+---
+>     gaps <- read.table(paste0("./",seqid,"_",sampleid,"_customGaps.bed"), stringsAsFactors=F)
+>     gaps[,5:8] <- ""
+>     gaps$V9 <- unlist(lapply(stringr::str_split(gaps$V4, "\\."), function(x) x[1]))
+>     names(gaps) <- c("CHR","START","STOP","TARGET","","","","","GENE")
+>     write.table(gaps, paste0("./",seqid,"_",sampleid,"_customGaps.bed"), row.names = F, sep = "\t", quote = F)
+Only in /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-2.5.3/: GermlineEnrichment_Hotspots.bed
+Only in /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-dev/: GermlineEnrichment_TSC_Hotspots.bed
+diff /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-2.5.3/getCustomCoverage.sh /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-dev/getCustomCoverage.sh
+24c24
+<     . /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel".variables
+---
+>     . /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel".variables
+Only in /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-2.5.3/: .gitignore
+Common subdirectories: /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-2.5.3/IlluminaRapidExome and /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-dev/IlluminaRapidExome
+Common subdirectories: /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-2.5.3/IlluminaTruSightCancer and /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-dev/IlluminaTruSightCancer
+Only in /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-2.5.3/: IlluminaTruSightCancerV2
+Common subdirectories: /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-2.5.3/IlluminaTruSightCardio and /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-dev/IlluminaTruSightCardio
+Common subdirectories: /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-2.5.3/IlluminaTruSightOne and /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-dev/IlluminaTruSightOne
+diff /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-2.5.3/README.md /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-dev/README.md
+1c1,5
+< <h2>GermlineEnrichment</h2>
+---
+> <h2>GermlineEnrichment_TSC</h2>
+> 
+> > **NOTE**  
+> > This pipeline is for **IlluminaTruSightCancer only**. It is taken from the original GermlineEnrichment pipeline but split because it has diverged significantly from the FH panel. See the Issue on the original GermlineEnrichment repo for details - https://github.com/AWGL/GermlineEnrichment/issues/16
+> 
+5c9
+< <p>Launch with qsub 1_GermlineEnrichment.sh in the sample directory. Assumes Torque/PBS is installed</p>
+---
+> <p>Launch with qsub 1_GermlineEnrichment_TSC.sh in the sample directory. Assumes Torque/PBS is installed</p>
+74c78
+< <h5>Source: http://gatkforums.broadinstitute.org/gatk/discussion/6308/evaluating-the-quality-of-a-variant-callset</h5>
+\ No newline at end of file
+---
+> <h5>Source: http://gatkforums.broadinstitute.org/gatk/discussion/6308/evaluating-the-quality-of-a-variant-callset</h5>
+Common subdirectories: /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-2.5.3/RocheSeqCapEZExome and /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-dev/RocheSeqCapEZExome
