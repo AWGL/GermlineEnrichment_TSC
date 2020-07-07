@@ -1,0 +1,60 @@
+12c12
+< version="2.5.3"
+---
+> version="2.6.0"
+18c18
+< . /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel".variables
+---
+> . /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel".variables
+149c149
+< -L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+---
+> -L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+176c176
+<     -L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+---
+>     -L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+190c190
+<     -L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+---
+>     -L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+227c227
+< I=/data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+---
+> I=/data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+263c263
+< -L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+---
+> -L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+280c280
+< -b /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed | \
+---
+> -b /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed | \
+295c295
+< awk '$1 ~ /^MT/' /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed >> "$panel"_Targets.bed
+---
+> awk '$1 ~ /^MT/' /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed >> "$panel"_Targets.bed
+311c311
+< cat /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/GermlineEnrichment_Hotspots.bed "$panel"_ClinicalCoverageTargets.bed | \
+---
+> cat /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/GermlineEnrichment_TSC_Hotspots.bed "$panel"_ClinicalCoverageTargets.bed | \
+346c346
+< -L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+---
+> -L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+377c377
+< awk '{if ($1 == "Y") print $0}' /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed > Y.bed
+---
+> awk '{if ($1 == "Y") print $0}' /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed > Y.bed
+414c414
+< echo \#\#SAMPLE\=\<ID\="$sampleId",Tissue\=Germline,WorklistId\="$worklistId",SeqId\="$seqId",Assay\="$panel",PipelineName\=GermlineEnrichment,PipelineVersion\="$version",RawSequenceQuality\="$rawSequenceQuality",PercentMapped\="$pctPfReadsAligned",ATDropout\="$atDropout",GCDropout\="$gcDropout",MeanInsertSize\="$meanInsertSize",SDInsertSize\="$sdInsertSize",DuplicationRate\="$duplicationRate",TotalReads\="$totalReads",PctSelectedBases\="$pctSelectedBases",MeanOnTargetCoverage\="$meanOnTargetCoverage",PctTargetBasesCt\="$pctTargetBasesCt",EstimatedContamination\="$freemix",GenotypicGender\="$calcGender",TotalTargetedUsableBases\="$totalTargetedUsableBases",RemoteVcfFilePath\=$(dirname $PWD)/"$seqId"_filtered_meta_annotated.vcf,RemoteBamFilePath\=$(find $PWD -type f -name "$seqId"_"$sampleId".bam)\> > "$seqId"_"$sampleId"_meta.txt
+---
+> echo \#\#SAMPLE\=\<ID\="$sampleId",Tissue\=Germline,WorklistId\="$worklistId",SeqId\="$seqId",Assay\="$panel",PipelineName\=GermlineEnrichment_TSC,PipelineVersion\="$version",RawSequenceQuality\="$rawSequenceQuality",PercentMapped\="$pctPfReadsAligned",ATDropout\="$atDropout",GCDropout\="$gcDropout",MeanInsertSize\="$meanInsertSize",SDInsertSize\="$sdInsertSize",DuplicationRate\="$duplicationRate",TotalReads\="$totalReads",PctSelectedBases\="$pctSelectedBases",MeanOnTargetCoverage\="$meanOnTargetCoverage",PctTargetBasesCt\="$pctTargetBasesCt",EstimatedContamination\="$freemix",GenotypicGender\="$calcGender",TotalTargetedUsableBases\="$totalTargetedUsableBases",RemoteVcfFilePath\=$(dirname $PWD)/"$seqId"_filtered_meta_annotated.vcf,RemoteBamFilePath\=$(find $PWD -type f -name "$seqId"_"$sampleId".bam)\> > "$seqId"_"$sampleId"_meta.txt
+434c434
+< -L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+---
+> -L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+481c481
+<     cp 2_GermlineEnrichment.sh .. && cd .. && qsub 2_GermlineEnrichment.sh
+---
+>     cp 2_GermlineEnrichment_TSC.sh .. && cd .. && qsub 2_GermlineEnrichment_TSC.sh

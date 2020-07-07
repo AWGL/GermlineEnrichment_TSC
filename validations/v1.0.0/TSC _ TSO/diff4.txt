@@ -1,0 +1,7 @@
+diff /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-2.5.3/IlluminaTruSightOne/IlluminaTruSightOne.variables /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-dev/IlluminaTruSightOne/IlluminaTruSightOne.variables
+5,6c5
+< expectedInsertSize=300 #insert size
+< mqRankSum=-12.5 #The MQRankSum value to filter SNPs on
+---
+> expectedInsertSize=300 #insert size
+\ No newline at end of file

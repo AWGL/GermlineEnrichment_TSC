@@ -1,0 +1,64 @@
+11c11
+< version="2.5.3"
+---
+> version="2.6.0"
+18c18
+< . /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel".variables
+---
+> . /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel".variables
+72c72
+< -L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+---
+> -L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+84c84
+< -L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+---
+> -L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+107c107
+< -L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+---
+> -L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+119c119
+< -L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+---
+> -L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+142c142
+< -L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+---
+> -L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+156c156
+< -L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+---
+> -L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+169c169
+< -L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+---
+> -L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+240c240
+< -L /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+---
+> -L /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+247c247
+< -R /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+---
+> -R /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+275c275
+<     -i /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+---
+>     -i /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/"$panel"/"$panel"_ROI_b37.bed \
+289c289
+<     /share/apps/R-distros/R-3.3.1/bin/Rscript /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/ExomeDepth.R \
+---
+>     /share/apps/R-distros/R-3.3.1/bin/Rscript /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/ExomeDepth.R \
+331c331
+<     cat /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/IlluminaTruSightCancer/hotspot_coverage/*.bed | sort -k1,1 -k2,2n > /data/results/$seqId/$panel/IlluminaTruSightCancer_CustomROI_b37.bed
+---
+>     cat /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/IlluminaTruSightCancer/hotspot_coverage/*.bed | sort -k1,1 -k2,2n > /data/results/$seqId/$panel/IlluminaTruSightCancer_CustomROI_b37.bed
+335c335
+<     /share/apps/anaconda2/bin/Rscript --vanilla /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/generateCnvReport.R $seqId $panel $version
+---
+>     /share/apps/anaconda2/bin/Rscript --vanilla /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/generateCnvReport.R $seqId $panel $version
+339c339
+<     /data/diagnostics/pipelines/GermlineEnrichment/GermlineEnrichment-"$version"/getCustomCoverage.sh
+---
+>     /data/diagnostics/pipelines/GermlineEnrichment_TSC/GermlineEnrichment_TSC-"$version"/getCustomCoverage.sh
